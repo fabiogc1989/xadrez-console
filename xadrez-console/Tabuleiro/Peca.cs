@@ -7,16 +7,12 @@
         public int QteMovimentos { get; set; }
         public Tabuleiro Tab { get; set; }
 
-        public Peca()
+        public Peca(Tabuleiro tab, Cor cor)
         {
-            QteMovimentos = 0;
-        }
-
-        public Peca(Posicao posicao, Tabuleiro tab, Cor cor) : this()
-        {
-            Posicao = posicao;
+            Posicao = null;
             Cor = cor;
             Tab = tab;
+            QteMovimentos = 0;
         }
     }
 }
