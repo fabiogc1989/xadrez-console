@@ -4,8 +4,11 @@ namespace Xadrez
 {
     class Peao : Peca
     {
-        public Peao(Tabuleiro.Tabuleiro tab, Cor cor) : base(tab,cor)
+        private PartidaDeXadrez _partida;
+
+        public Peao(Tabuleiro.Tabuleiro tab, Cor cor, PartidaDeXadrez partida) : base(tab,cor)
         {
+            _partida = partida;
         }
 
         private bool ExisteInimigo(Posicao pos)
@@ -32,10 +35,9 @@ namespace Xadrez
                 {
                     mat[pos.Linha, pos.Coluna] = true;
                 }
-                pos.DefinirValores(Posicao.Linha - 2, Posicao.Coluna);
 
-                Posicao p2 = new Posicao(Posicao.Linha - 1, Posicao.Coluna);
-                if (Tab.PosicaoValida(p2) && Livre(p2) && Tab.PosicaoValida(pos) && Livre(pos) && QteMovimentos == 0)
+                pos.DefinirValores(Posicao.Linha - 2, Posicao.Coluna);
+                if (Tab.PosicaoValida(pos) && Livre(pos) && QteMovimentos == 0)
                 {
                     mat[pos.Linha, pos.Coluna] = true;
                 }
@@ -49,6 +51,21 @@ namespace Xadrez
                 {
                     mat[pos.Linha, pos.Coluna] = true;
                 }
+
+                // #jogadaespecial en passant
+                if (Posicao.Linha == 3)
+                {
+                    Posicao esquerda = new Posicao(Posicao.Linha, Posicao.Coluna - 1);
+                    if (Tab.PosicaoValida(esquerda) && ExisteInimigo(esquerda) && Tab.Peca(esquerda) == _partida.VulneravelEnPassant)
+                    {
+                        mat[esquerda.Linha - 1, esquerda.Coluna] = true;
+                    }
+                    Posicao direita = new Posicao(Posicao.Linha, Posicao.Coluna + 1);
+                    if (Tab.PosicaoValida(direita) && ExisteInimigo(direita) && Tab.Peca(direita) == _partida.VulneravelEnPassant)
+                    {
+                        mat[direita.Linha - 1, esquerda.Coluna] = true;
+                    }
+                }
             }
             else
             {
@@ -57,10 +74,9 @@ namespace Xadrez
                 {
                     mat[pos.Linha, pos.Coluna] = true;
                 }
-                pos.DefinirValores(Posicao.Linha + 2, Posicao.Coluna);
 
-                Posicao p2 = new Posicao(Posicao.Linha + 1, Posicao.Coluna);
-                if (Tab.PosicaoValida(p2) && Livre(p2) && Tab.PosicaoValida(pos) && Livre(pos) && QteMovimentos == 0)
+                pos.DefinirValores(Posicao.Linha + 2, Posicao.Coluna);
+                if (Tab.PosicaoValida(pos) && Livre(pos) && QteMovimentos == 0)
                 {
                     mat[pos.Linha, pos.Coluna] = true;
                 }
@@ -73,6 +89,21 @@ namespace Xadrez
                 if (Tab.PosicaoValida(pos) && ExisteInimigo(pos))
                 {
                     mat[pos.Linha, pos.Coluna] = true;
+                }
+
+                // #jogadaespecial en passant
+                if (Posicao.Linha == 4)
+                {
+                    Posicao esquerda = new Posicao(Posicao.Linha, Posicao.Coluna - 1);
+                    if (Tab.PosicaoValida(esquerda) && ExisteInimigo(esquerda) && Tab.Peca(esquerda) == _partida.VulneravelEnPassant)
+                    {
+                        mat[esquerda.Linha + 1, esquerda.Coluna] = true;
+                    }
+                    Posicao direita = new Posicao(Posicao.Linha, Posicao.Coluna + 1);
+                    if (Tab.PosicaoValida(direita) && ExisteInimigo(direita) && Tab.Peca(direita) == _partida.VulneravelEnPassant)
+                    {
+                        mat[direita.Linha + 1, esquerda.Coluna] = true;
+                    }
                 }
             }
             return mat;
