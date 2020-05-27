@@ -157,9 +157,6 @@ namespace Xadrez
                 }
             }
 
-
-
-
             if (EstaEmXeque(Adversaria(JogadorAtual)))
             {
                 Xeque = true;
@@ -253,7 +250,8 @@ namespace Xadrez
 
         public Peca Rei(Cor cor)
         {
-            foreach (Peca x in PecasEmJogo(cor))
+            HashSet<Peca> pecasEmJogo = PecasEmJogo(cor);
+            foreach (Peca x in pecasEmJogo)
             {
                 if (x is Rei)
                 {
@@ -272,7 +270,8 @@ namespace Xadrez
                 throw new TabuleiroException("Não tem rei da cor " + cor + " no tabuleiro!");
             }
 
-            foreach (Peca x in PecasEmJogo(Adversaria(cor)))
+            HashSet<Peca> pecasEmJogo = PecasEmJogo(Adversaria(cor));
+            foreach (Peca x in pecasEmJogo)
             {
                 bool[,] mat = x.MovimentosPossiveis();
                 if (mat[r.Posicao.Linha, r.Posicao.Coluna])
