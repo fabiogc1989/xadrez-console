@@ -29,7 +29,7 @@ namespace Xadrez
                 {
                     break;
                 }
-                pos.Linha = pos.Linha - 1;
+                pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna);
             }
 
             // direita
@@ -41,7 +41,7 @@ namespace Xadrez
                 {
                     break;
                 }
-                pos.Coluna = pos.Coluna + 1;
+                pos.DefinirValores(Posicao.Linha, Posicao.Coluna + 1);
             }
 
             // esquerda
@@ -53,7 +53,7 @@ namespace Xadrez
                 {
                     break;
                 }
-                pos.Coluna = pos.Coluna - 1;
+                pos.DefinirValores(Posicao.Linha, Posicao.Coluna - 1);
             }
 
             // baixo
@@ -65,7 +65,7 @@ namespace Xadrez
                 {
                     break;
                 }
-                pos.Linha = pos.Linha + 1;
+                pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna);
             }
 
             // no

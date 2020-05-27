@@ -141,6 +141,25 @@ namespace Xadrez
                 throw new TabuleiroException("Você não pode se colocar em xeque!");
             }
 
+            Peca p = Tab.Peca(destino);
+
+            // #jogadaespecial promocao
+
+            if (p is Peao)
+            {
+                if ((p.Cor == Cor.Branca && destino.Linha == 0) || (p.Cor == Cor.Preta && destino.Linha == 7))
+                {
+                    p = Tab.RetirarPeca(destino);
+                    _pecas.Remove(p);
+                    Peca dama = new Dama(Tab, p.Cor);
+                    Tab.ColocarPeca(dama, destino);
+                    _pecas.Add(dama);
+                }
+            }
+
+
+
+
             if (EstaEmXeque(Adversaria(JogadorAtual)))
             {
                 Xeque = true;
@@ -159,8 +178,6 @@ namespace Xadrez
                 Turno++;
                 MudaJogador();
             }
-
-            Peca p = Tab.Peca(destino);
 
             // #joagadaespecial en passant
             if (p is Peao && (destino.Linha == origem.Linha - 2 || destino.Linha == origem.Linha + 2))
@@ -228,8 +245,10 @@ namespace Xadrez
             {
                 return Cor.Preta;
             }
-
-            return Cor.Branca;
+            else
+            {
+                return Cor.Branca;
+            }
         }
 
         public Peca Rei(Cor cor)
@@ -270,7 +289,8 @@ namespace Xadrez
             {
                 return false;
             }
-            foreach (Peca x in PecasEmJogo(cor))
+            HashSet<Peca> pecasEmJogo = PecasEmJogo(cor);
+            foreach (Peca x in pecasEmJogo)
             {
                 bool[,] mat = x.MovimentosPossiveis();
                 for (int i = 0; i < Tab.Linhas; i++)
@@ -281,7 +301,7 @@ namespace Xadrez
                         {
                             Posicao origem = x.Posicao;
                             Posicao destino = new Posicao(i, j);
-                            Peca pecaCapturada = ExecutaMovimento(x.Posicao, destino);
+                            Peca pecaCapturada = ExecutaMovimento(origem, destino);
                             bool testeXeque = EstaEmXeque(cor);
                             DesfazMovimento(origem, destino, pecaCapturada);
                             if (!testeXeque)
