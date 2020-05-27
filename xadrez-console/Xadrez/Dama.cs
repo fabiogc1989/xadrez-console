@@ -2,9 +2,9 @@
 
 namespace Xadrez
 {
-    class Torre : Peca
+    class Dama : Peca
     {
-        public Torre(Tabuleiro.Tabuleiro tab, Cor cor) : base(tab, cor)
+        public Dama(Tabuleiro.Tabuleiro tab, Cor cor) : base(tab, cor)
         {
         }
 
@@ -68,12 +68,60 @@ namespace Xadrez
                 pos.Linha = pos.Linha + 1;
             }
 
+            // no
+            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna - 1);
+            while (Tab.PosicaoValida(pos) && PodeMover(pos))
+            {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor)
+                {
+                    break;
+                }
+                pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna - 1);
+            }
+
+            // ne
+            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1);
+            while (Tab.PosicaoValida(pos) && PodeMover(pos))
+            {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor)
+                {
+                    break;
+                }
+                pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1);
+            }
+
+            // se
+            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1);
+            while (Tab.PosicaoValida(pos) && PodeMover(pos))
+            {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor)
+                {
+                    break;
+                }
+                pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1);
+            }
+
+            // so
+            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1);
+            while (Tab.PosicaoValida(pos) && PodeMover(pos))
+            {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor)
+                {
+                    break;
+                }
+                pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1);
+            }
+
             return mat;
         }
 
         public override string ToString()
         {
-            return "T";
+            return "D";
         }
     }
 }

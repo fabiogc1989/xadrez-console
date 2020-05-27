@@ -11,7 +11,7 @@
             Coluna = coluna;
         }
 
-        public void DefinirPosicao(int linha, int coluna)
+        public void DefinirValores(int linha, int coluna)
         {
             Linha = linha;
             Coluna = coluna;
